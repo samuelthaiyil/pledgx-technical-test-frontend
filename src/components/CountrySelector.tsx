@@ -1,6 +1,10 @@
 import {Country} from "./Country";
 import {useState} from "react";
 
+type CountrySelectorProps = {
+    onSelect: (name: string, imageSrc: string) => any;
+}
+
 const countries = [
     {
         name: "Canada",
@@ -12,10 +16,11 @@ const countries = [
     }
 ]
 
-export const CountrySelector = () => {
+export const CountrySelector = ({ onSelect }: CountrySelectorProps) => {
     const [selectedCountry, setSelectedCountry] = useState<{ name: string; imageSrc: string} | null>(null);
     const handleCountrySelected = (name: string, imageSrc: string) => {
         setSelectedCountry({ name, imageSrc });
+        onSelect(name, imageSrc);
     }
     return (
         <>

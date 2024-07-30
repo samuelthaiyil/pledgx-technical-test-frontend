@@ -19,7 +19,7 @@ function App() {
               </div>
               <FormField label="Phone Number"/>
               <FormField label="Job Title"/>
-              <CountrySelector />
+              <CountrySelector onSelect={console.log} />
           </div>
       </div>
   );
