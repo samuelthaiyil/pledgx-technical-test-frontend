@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import {ProfilePicture} from "./components/ProfilePicture";
 import {FormField} from "./components/FormField";
+import {CountrySelector} from "./components/CountrySelector";
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
                   <FormField label="Last Name"/>
               </div>
               <FormField label="Phone Number"/>
-              <FormField label="Job Title"/></div>
+              <FormField label="Job Title"/>
+              <CountrySelector />
+          </div>
       </div>
   );
 }
