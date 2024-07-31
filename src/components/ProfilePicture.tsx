@@ -1,9 +1,14 @@
 import {useRef, useState} from "react";
 
-export const ProfilePicture = () => {
+type ProfilePictureProps = {
+    image: Blob | null;
+    onChange: (image: Blob) => any;
+}
+
+export const ProfilePicture = ({image, onChange}: ProfilePictureProps) => {
 
     const imageInput = useRef<HTMLInputElement>(null);
-    const [profilePicture, setProfilePicture] = useState<string>("Untitled_Artwork 16 copy 3 1.svg");
+    const [profilePicture, setProfilePicture] = useState<string>(image ? URL.createObjectURL(image) : "Untitled_Artwork 16 copy 3 1.svg");
 
     const handleEditClick = () => imageInput.current?.click();
 
@@ -12,6 +17,7 @@ export const ProfilePicture = () => {
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setProfilePicture(imageUrl);
+            onChange(file);
         }
     }
 

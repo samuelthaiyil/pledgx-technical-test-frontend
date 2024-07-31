@@ -12,8 +12,11 @@ function App() {
         lastName: "",
         phoneNumber: "",
         jobTitle: "",
-        country: null
+        country: null,
+        profilePicture: null
     });
+
+    const [canSave, setCanSave] = useState<boolean>(true);
 
     useEffect( () => {
         const getForm = async () => {
@@ -30,26 +33,41 @@ function App() {
             }));
         }
         getForm();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+
+        // check if all values are truthy before enabling save button (minus profile picture)
+        setCanSave(Object.entries(form).every(([key, value]) => key === 'profilePicture' || value));
+    }, [form]);
 
     const handleSubmit = async () => {
+        setCanSave(false);
         await submitUser(form);
+
+        // simulate longer timeout for demo purposes
+        setTimeout(() => {
+            setCanSave(true);
+        }, 1000);
     }
 
   return (
       <div className="mx-auto w-1/2 lg:w-1/3 space-y-24">
-          <div className="py-8 space-y-5 lg:flex lg:justify-between lg:items-center lg:my-5 lg:space-y-0">
+          <div className="py-8 space-y-5 lg:flex lg:justify-between md:items-center lg:my-5 lg:space-y-0">
               <h1 className="inline text-2xl ">Edit your Contact Information</h1>
               <button
-                  className="text-sm bg-orange-500 font-semibold rounded text-white px-14 py-2 py-auto uppercase hover:bg-orange-400 transition hover:duration-100"
+                  className={`text-sm font-semibold rounded px-14 py-2 uppercase transition duration-100 ${
+                      canSave ? 'bg-orange-500 text-white hover:bg-orange-400' : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                  }`}
                   onClick={handleSubmit}
+                  disabled={!canSave}
               >
                   Save
               </button>
           </div>
 
           <div className="flex justify-center">
-              <ProfilePicture/>
+              <ProfilePicture image={form.profilePicture} onChange={(value) => setForm({...form, profilePicture: value})}/>
           </div>
 
           <div className="space-y-3">

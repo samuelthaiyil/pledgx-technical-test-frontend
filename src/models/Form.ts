@@ -4,4 +4,5 @@ export type Form = {
     phoneNumber: string;
     jobTitle: string;
     country: string | null;
+    profilePicture: Blob | null;
 }
