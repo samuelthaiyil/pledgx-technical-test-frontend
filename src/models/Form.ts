@@ -3,5 +3,5 @@ export type Form = {
     lastName: string;
     phoneNumber: string;
     jobTitle: string;
-    country: string;
+    country: string | null;
 }

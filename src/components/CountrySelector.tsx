@@ -1,8 +1,9 @@
 import {Country} from "./Country";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 type CountrySelectorProps = {
-    onSelect: (name: string, imageSrc: string) => any;
+    onSelect: (name: string) => any;
+    selected: string | null
 }
 
 const countries = [
@@ -16,12 +17,16 @@ const countries = [
     }
 ]
 
-export const CountrySelector = ({ onSelect }: CountrySelectorProps) => {
-    const [selectedCountry, setSelectedCountry] = useState<{ name: string; imageSrc: string} | null>(null);
-    const handleCountrySelected = (name: string, imageSrc: string) => {
-        setSelectedCountry({ name, imageSrc });
-        onSelect(name, imageSrc);
+export const CountrySelector = ({ onSelect, selected }: CountrySelectorProps) => {
+    const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+    const handleCountrySelected = (name: string) => {
+        setSelectedCountry(name);
+        onSelect(name);
     }
+    useEffect(() => {
+        setSelectedCountry(selected);
+    }, [selected])
+
     return (
         <>
             <p>Country</p>
@@ -30,8 +35,8 @@ export const CountrySelector = ({ onSelect }: CountrySelectorProps) => {
                     return (
                         <div className="inline" key={name}>
                             <Country
-                                onSelect={() => handleCountrySelected(name, imageSrc)}
-                                isSelected={(selectedCountry && (selectedCountry.name === name)) || false}
+                                onSelect={() => handleCountrySelected(name)}
+                                isSelected={(selectedCountry && (selectedCountry === name)) || false}
                                 name={name}
                                 imageSrc={imageSrc}
                             />
